@@ -1,0 +1,33 @@
+import java.util.Scanner
+
+fun can(w: Int, h: Int, planks: List<Int>): Boolean{
+    var sum: Int = 0
+    var count = 0
+    for (i in planks.indices){
+        sum += planks[i]
+
+        if (sum >= w){
+            count += 1
+            sum = 0
+        }
+    }
+    if (count < h) return false
+    else return true
+}
+
+fun main(){
+    val scanner = Scanner(System.`in`)
+    val (h, n) = scanner.nextLine().split(" ").map { it.toInt() }
+    val numbers = scanner.nextLine().split(" ").map { it.toInt() }
+
+    var left = 0
+    var right = Int.MAX_VALUE
+    while (left + 1 < right){
+        val pivot = left + (right - left) / 2
+
+        if (can(pivot, h, numbers)) left = pivot
+        else right = pivot
+    }
+
+    print(left)
+}
