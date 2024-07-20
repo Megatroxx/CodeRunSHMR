@@ -1,0 +1,38 @@
+import java.util.Scanner
+
+fun main(){
+    val scanner = Scanner(System.`in`)
+    val departureTime = scanner.nextLine().toString()
+    val arrivalTime = scanner.nextLine().toString()
+    val timeString = scanner.nextLine().toString()
+
+
+    val (departureHours, departureMins) = departureTime.split(":").map { it.toInt() }
+    val (arrivalHours, arrivalMins) = arrivalTime.split(":").map { it.toInt() }
+    var timeZone = 0
+
+
+    val departureMinTime = departureHours * 60 + departureMins
+    var arrivalMinTime = arrivalHours * 60 + arrivalMins
+
+
+    if (timeString.startsWith("+")) {
+        timeZone = timeString.substring(1, timeString.length).toInt()
+        arrivalMinTime -= timeZone.toInt() * 60       //-720
+        if (arrivalMinTime < 0) arrivalMinTime = (1440 + arrivalMinTime)
+    }
+    if (timeString.startsWith("-")) {
+        timeZone = timeString.substring(1, timeString.length).toInt()
+        arrivalMinTime += timeZone.toInt() * 60
+    }
+
+    val diffTime = arrivalMinTime - departureMinTime
+
+    val res = (1440 + diffTime) % 1440
+
+    val resMin: String = if (res % 60 >= 10) (res % 60).toString() else "0${res % 60}"
+
+    println("${res / 60}:${resMin}")
+
+
+}
