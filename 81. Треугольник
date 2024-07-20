@@ -1,0 +1,11 @@
+fun main() {
+    val a = readLine()?.toIntOrNull() ?: return println("NO")
+    val b = readLine()?.toIntOrNull() ?: return println("NO")
+    val c = readLine()?.toIntOrNull() ?: return println("NO")
+    val canFormTriangle = (a + b > c) && (a + c > b) && (b + c > a)
+    if (canFormTriangle) {
+        println("YES")
+    } else {
+        println("NO")
+    }
+}
