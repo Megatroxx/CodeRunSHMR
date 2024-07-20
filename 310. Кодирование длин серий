@@ -1,0 +1,32 @@
+import java.util.Scanner
+
+fun main(){
+    val scanner = Scanner(System.`in`)
+    val inputString = scanner.nextLine().toString()
+    var isStringChar = !inputString[0].isDigit()
+    var sum = 0
+    var tempNumber = ""
+
+
+    for (i in 1 until inputString.length){
+        if (inputString[i].isDigit()) {
+            tempNumber += inputString[i]
+        }
+        else {
+            if (isStringChar) {
+                sum += 1
+            }
+            else{
+                sum += tempNumber.toInt()
+                tempNumber = ""
+            }
+        }
+        if (!inputString[i].isDigit()) isStringChar = true else isStringChar = false
+
+    }
+    if (isStringChar) sum += 1
+    else sum += tempNumber.toInt()
+    
+    println(sum)
+
+}
