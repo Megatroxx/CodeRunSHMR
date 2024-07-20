@@ -1,0 +1,38 @@
+fun main() {
+    val numbers = mutableListOf<Int>()
+    while (true) {
+        val input = readLine()?.toIntOrNull() ?: break
+        if (input == -2000000000) break
+        numbers.add(input)
+    }
+
+    val sequenceType = when {
+        isConstant(numbers) -> "CONSTANT"
+        isAscending(numbers) -> "ASCENDING"
+        isWeaklyAscending(numbers) -> "WEAKLY ASCENDING"
+        isDescending(numbers) -> "DESCENDING"
+        isWeaklyDescending(numbers) -> "WEAKLY DESCENDING"
+        else -> "RANDOM"
+    }
+
+    println(sequenceType)
+}
+
+fun isConstant(numbers: List<Int>): Boolean {
+    return numbers.all { it == numbers.first() }
+}
+
+fun isAscending(numbers: List<Int>): Boolean {
+    return numbers.zipWithNext().all { (a, b) -> a < b }
+}
+
+fun isWeaklyAscending(numbers: List<Int>): Boolean {
+    return numbers.zipWithNext().all { (a, b) -> a <= b }
+}
+
+fun isDescending(numbers: List<Int>): Boolean {
+    return numbers.zipWithNext().all { (a, b) -> a > b }
+}
+fun isWeaklyDescending(numbers: List<Int>): Boolean {
+    return numbers.zipWithNext().all { (a, b) -> a >= b }
+}
