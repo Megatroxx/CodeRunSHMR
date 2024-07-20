@@ -1,0 +1,23 @@
+import java.util.Scanner
+
+fun main(){
+    val scanner = Scanner(System.`in`)
+    var maxCount = 0
+    var maxChar = 'c'
+    var hashMap = mutableMapOf<Char, Int>()
+    val number = scanner.nextLine().toInt()
+    for (i in 0 until number){
+        val str = scanner.nextLine().toString()
+        val char = str[0]
+        if (!hashMap.contains(char)) hashMap[char] = 0
+        hashMap[char] = hashMap[char]!! + 1
+        if (hashMap[char]!! >= maxCount) {
+            maxCount = hashMap[char]!!
+            maxChar = char
+        }
+    }
+
+
+    print(maxChar)
+
+}
