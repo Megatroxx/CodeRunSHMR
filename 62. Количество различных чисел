@@ -1,0 +1,5 @@
+fun main() {
+    val input = readLine()!!
+    val numbers = input.split(" ").map { it.toInt() }.toSet()
+    println(numbers.size)
+}
