@@ -1,0 +1,55 @@
+import java.util.*
+
+fun main() {
+    val scanner = Scanner(System.`in`)
+
+    val n = scanner.nextInt()
+    val canonicalValues = IntArray(n)
+    for (i in 0 until n) {
+        canonicalValues[i] = scanner.nextInt()
+    }
+
+    canonicalValues.sort()
+
+    val m = scanner.nextInt()
+    val oldValues = IntArray(m)
+    for (i in 0 until m) {
+        oldValues[i] = scanner.nextInt()
+    }
+
+    for (i in 0 until m) {
+        val oldValue = oldValues[i]
+        val nearest = findNearestCanonicalValue(canonicalValues, oldValue)
+        println(nearest)
+    }
+}
+
+fun findNearestCanonicalValue(canonicalValues: IntArray, value: Int): Int {
+    var left = 0
+    var right = canonicalValues.size - 1
+
+    while (left < right) {
+        val mid = (left + right) / 2
+        if (canonicalValues[mid] == value) {
+            return canonicalValues[mid]
+        } else if (canonicalValues[mid] < value) {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+
+    if (left == 0) {
+        return canonicalValues[left]
+    } else if (left == canonicalValues.size) {
+        return canonicalValues[left - 1]
+    } else {
+        val leftDiff = Math.abs(canonicalValues[left - 1] - value)
+        val rightDiff = Math.abs(canonicalValues[left] - value)
+        return if (leftDiff <= rightDiff) {
+            canonicalValues[left - 1]
+        } else {
+            canonicalValues[left]
+        }
+    }
+}
