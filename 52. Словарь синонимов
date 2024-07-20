@@ -1,0 +1,11 @@
+fun main() {
+    val input = readLine()!!.toInt()
+    val synonyms = mutableMapOf<String, String>()
+    repeat(input) {
+        val (word1, word2) = readLine()!!.split(" ")
+        synonyms[word1] = word2
+        synonyms[word2] = word1
+    }
+    val word = readLine()!!
+    println(synonyms[word])
+}
