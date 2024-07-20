@@ -1,0 +1,23 @@
+import java.util.Scanner
+
+fun main(){
+    val scanner = Scanner(System.`in`)
+    val inputString = scanner.nextLine().toString().filter { !it.isWhitespace() }.lowercase()
+
+    var i = 0
+    var j = inputString.length - 1
+    var isPalindrome: Boolean = true
+    while (i < j){
+        if (inputString[i] == inputString[j]){
+            i++
+            j--
+        }
+        else{
+            isPalindrome = false
+            break
+        }
+    }
+    if (isPalindrome) println("It is a palindrome")
+    else println("It is not a palindrome")
+
+}
