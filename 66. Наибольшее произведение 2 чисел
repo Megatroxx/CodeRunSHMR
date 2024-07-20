@@ -1,0 +1,30 @@
+import java.util.Scanner
+
+fun main() {
+
+    val scanner = Scanner(System.`in`)
+    val numbers = scanner.nextLine().split(" ").filter { it.isNotBlank() }.map { it.toLong() }
+    var Min1 = Long.MAX_VALUE
+    var min2 = Long.MAX_VALUE
+    var Max1 = Long.MIN_VALUE
+    var max2 = Long.MIN_VALUE
+    for (i in 0 until numbers.size){
+        if (numbers[i] > Max1){
+            max2 = Max1
+            Max1 = numbers[i]
+        }
+        else if (numbers[i] > max2){
+            max2 = numbers[i]
+        }
+        if (numbers[i] < Min1){
+            min2 = Min1
+            Min1 = numbers[i]
+        }
+        else if (numbers[i] < min2){
+            min2 = numbers[i]
+        }
+    }
+
+    if (Max1 * max2 > min2 * Min1) println("$max2 $Max1")
+    else println("$Min1 $min2")
+}
