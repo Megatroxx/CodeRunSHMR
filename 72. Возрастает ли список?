@@ -1,0 +1,16 @@
+fun main() {
+    val numbers = readLine()!!.split(" ").map { it.toInt() }
+        fun isMonotonicallyIncreasing(list: List<Int>): Boolean {
+        for (i in 1 until list.size) {
+            if (list[i] <= list[i - 1]) {
+                return false
+            }
+        }
+        return true
+    }
+    if (isMonotonicallyIncreasing(numbers)) {
+        println("YES")
+    } else {
+        println("NO")
+    }
+}
