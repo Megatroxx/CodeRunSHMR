@@ -1,0 +1,17 @@
+import java.util.Scanner
+
+
+fun main(){
+    val scanner = Scanner(System.`in`)
+    val size = scanner.nextLine().toInt()
+    val numbers = scanner.nextLine().split(" ").map { it.toLong() }
+    var sum: Long = 0
+    var hashSet: MutableSet<Long> = mutableSetOf()
+    for (i in 0 until numbers.size){
+        if (!hashSet.contains(numbers[i])){
+            sum += numbers[i]
+            hashSet.add(numbers[i])
+        }
+    }
+    println(sum)
+}
