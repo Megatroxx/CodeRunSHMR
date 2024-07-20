@@ -1,0 +1,63 @@
+import java.util.*
+
+fun main() {
+    val input = Scanner(System.`in`)
+    val n = input.nextInt()
+    input.nextLine()
+    
+    val adjacencyMatrix = Array(n) { IntArray(n) }
+    for (i in 0 until n) {
+        val line = input.nextLine().trim().split(" ")
+        for (j in line.indices) {
+            adjacencyMatrix[i][j] = line[j].toInt()
+        }
+    }
+
+    val startVertex = input.nextInt() - 1
+    val endVertex = input.nextInt() - 1
+
+    if (startVertex == endVertex) {
+        println(0)
+        return
+    }
+
+    val queue: Queue<Int> = LinkedList()
+    val distances = IntArray(n) { -1 }
+    val predecessors = IntArray(n) { -1 }
+    distances[startVertex] = 0
+    queue.add(startVertex)
+
+    var found = false
+
+    while (queue.isNotEmpty() && !found) {
+        val currentVertex = queue.poll()
+
+        for (neighbor in 0 until n) {
+            if (adjacencyMatrix[currentVertex][neighbor] == 1 && distances[neighbor] == -1) {
+                distances[neighbor] = distances[currentVertex] + 1
+                predecessors[neighbor] = currentVertex
+                queue.add(neighbor)
+
+                if (neighbor == endVertex) {
+                    found = true
+                    break
+                }
+            }
+        }
+    }
+
+    if (distances[endVertex] != -1) {
+        println(distances[endVertex])
+
+        val path = mutableListOf<Int>()
+        var step = endVertex
+        while (step != -1) {
+            path.add(step + 1)
+            step = predecessors[step]
+        }
+        path.reverse()
+        println(path.joinToString(" "))
+    } else {
+        println(-1)
+    }
+}
