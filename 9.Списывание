@@ -1,0 +1,63 @@
+import kotlin.Pair
+import java.util.*
+
+
+
+fun isBipartite(n: Int, edges: List<Pair<Int, Int>>): String {
+    val graph = mutableMapOf<Int, MutableList<Int>>()
+    for (i in 1..n) {
+        graph[i] = mutableListOf()
+    }
+    for (edge in edges) {
+        val u = edge.first
+        val v = edge.second
+        graph[u]?.add(v)
+        graph[v]?.add(u)
+    }
+
+    val colors = IntArray(n + 1) { -1 }
+
+    fun bfs(start: Int): Boolean {
+        val queue: Queue<Int> = LinkedList()
+        queue.offer(start)
+        colors[start] = 0
+
+        while (queue.isNotEmpty()) {
+            val node = queue.poll()
+            val currentColor = colors[node]
+            val nextColor = 1 - currentColor
+
+            for (neighbor in graph[node] ?: error("Graph node $node not found")) {
+                if (colors[neighbor] == -1) {
+                    colors[neighbor] = nextColor
+                    queue.offer(neighbor)
+                } else if (colors[neighbor] == currentColor) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    for (i in 1..n) {
+        if (colors[i] == -1 && !bfs(i)) {
+            return "NO"
+        }
+    }
+
+    return "YES"
+}
+
+fun main() {
+    val input = readLine()!!.split(" ").map { it.toInt() }
+    val N = input[0]
+    val M = input[1]
+
+    val edges = mutableListOf<Pair<Int, Int>>()
+    repeat(M) {
+        val (u, v) = readLine()!!.split(" ").map { it.toInt() }
+        edges.add(u to v)
+    }
+
+    println(isBipartite(N, edges))
+}
