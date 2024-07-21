@@ -1,0 +1,60 @@
+import java.util.*
+
+fun main() {
+    val input = readLine()!!.split(" ").map { it.toInt() }
+    val N = input[0]
+    val M = input[1]
+    val S = input[2] - 1 
+    val T = input[3] - 1
+    val Q = input[4]
+
+    val fleas = mutableListOf<Pair<Int, Int>>()
+    repeat(Q) {
+        val fleaInput = readLine()!!.split(" ").map { it.toInt() }
+        val x = fleaInput[0] - 1
+        val y = fleaInput[1] - 1
+        fleas.add(Pair(x, y))
+    }
+
+    // Directions for knight moves
+    val knightMoves = arrayOf(
+        intArrayOf(2, 1), intArrayOf(1, 2), intArrayOf(-1, 2), intArrayOf(-2, 1),
+        intArrayOf(-2, -1), intArrayOf(-1, -2), intArrayOf(1, -2), intArrayOf(2, -1)
+    )
+    
+    val distances = Array(N) { IntArray(M) { Int.MAX_VALUE } }
+    val queue: Queue<Pair<Int, Int>> = LinkedList()
+    queue.offer(Pair(S, T))
+    distances[S][T] = 0
+
+    while (queue.isNotEmpty()) {
+        val (x, y) = queue.poll()
+
+        for (move in knightMoves) {
+            val nx = x + move[0]
+            val ny = y + move[1]
+
+            if (nx in 0 until N && ny in 0 until M && distances[nx][ny] == Int.MAX_VALUE) {
+                distances[nx][ny] = distances[x][y] + 1
+                queue.offer(Pair(nx, ny))
+            }
+        }
+    }
+    
+    var totalMinMoves = 0
+    var allReachable = true
+
+    for ((x, y) in fleas) {
+        if (distances[x][y] == Int.MAX_VALUE) {
+            allReachable = false
+            break
+        }
+        totalMinMoves += distances[x][y]
+    }
+
+    if (allReachable) {
+        println(totalMinMoves)
+    } else {
+        println(-1)
+    }
+}
