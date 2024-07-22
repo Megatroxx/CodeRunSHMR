@@ -1,0 +1,20 @@
+import java.io.File
+
+fun main() {
+    val filename = "input.txt"
+    val text = File(filename).readText()
+
+    val words = text.split("\\s+".toRegex())
+    val wordCount = mutableMapOf<String, Int>()
+    val output = mutableListOf<String>()
+
+    for (word in words) {
+        if (word.isNotBlank()) {
+            val count = wordCount.getOrDefault(word, 0)
+            output.add("$count")
+            wordCount[word] = count + 1
+        }
+    }
+
+    println(output.joinToString(" "))
+}

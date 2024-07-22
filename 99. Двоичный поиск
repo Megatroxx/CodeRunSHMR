@@ -1,0 +1,58 @@
+import java.util.*
+
+fun main() {
+    val input = readInput()
+    val N = input.first
+    val K = input.second
+    val array1 = input.third
+    val array2 = input.fourth
+
+    array1.sort()
+
+    val result = mutableListOf<String>()
+    for (number in array2) {
+        if (binarySearch(array1, number)) {
+            result.add("YES")
+        } else {
+            result.add("NO")
+        }
+    }
+
+    println(result.joinToString("\n"))
+}
+
+fun binarySearch(array: IntArray, target: Int): Boolean {
+    var left = 0
+    var right = array.size - 1
+
+    while (left <= right) {
+        val mid = left + (right - left) / 2
+
+        when {
+            array[mid] == target -> return true
+            array[mid] < target -> left = mid + 1
+            else -> right = mid - 1
+        }
+    }
+
+    return false
+}
+
+fun readInput(): Quad<Int, Int, IntArray, IntArray> {
+    val scanner = Scanner(System.`in`)
+
+    val N = scanner.nextInt()
+    val K = scanner.nextInt()
+
+    val array1 = IntArray(N) { scanner.nextInt() }
+    val array2 = IntArray(K) { scanner.nextInt() }
+
+    return Quad(N, K, array1, array2)
+}
+
+data class Quad<out A, out B, out C, out D>(
+    val first: A,
+    val second: B,
+    val third: C,
+    val fourth: D
+)

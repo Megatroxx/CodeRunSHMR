@@ -1,0 +1,47 @@
+import java.util.*
+
+fun main() {
+    val input = Scanner(System.`in`)
+    val N = input.nextInt()
+    val M = input.nextInt()
+
+    val adjacency_list = Array(M) { mutableListOf<Int>() }
+    val station_lines = Array(N + 1) { mutableListOf<Int>() }
+    
+    for (line in 0 until M) {
+        val P_i = input.nextInt()
+        for (j in 0 until P_i) {
+            val station = input.nextInt()
+            adjacency_list[line].add(station)
+            station_lines[station].add(line)
+        }
+    }
+
+    val A = input.nextInt()
+    val B = input.nextInt()
+
+    val queue: Queue<Pair<Int, Int>> = LinkedList()
+    val visited = BooleanArray(N + 1) { false }
+
+    queue.offer(Pair(A, 0))
+    visited[A] = true
+
+    while (queue.isNotEmpty()) {
+        val (currentStation, transfers) = queue.poll()
+
+        for (line in station_lines[currentStation]) {
+            for (nextStation in adjacency_list[line]) {
+                if (!visited[nextStation]) {
+                    visited[nextStation] = true
+                    if (nextStation == B) {
+                        println(transfers)
+                        return
+                    }
+                    queue.offer(Pair(nextStation, transfers + 1))
+                }
+            }
+        }
+    }
+
+    println(-1)
+}

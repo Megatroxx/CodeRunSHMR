@@ -1,0 +1,28 @@
+import java.util.*
+
+fun main() {
+    val scanner = Scanner(System.`in`)
+    val input = StringBuilder()
+
+    while (scanner.hasNextLine()) {
+        val line = scanner.nextLine()
+        if (line.isBlank()) {
+            break
+        }
+        input.append(line).append("\n")
+    }
+
+    val text = input.toString().trim()
+
+    val words = text.split("\\s+".toRegex())
+
+    val uniqueWords = mutableSetOf<String>()
+
+    for (word in words) {
+        if (word.isNotBlank()) {
+            uniqueWords.add(word)
+        }
+    }
+
+    println(uniqueWords.size)
+}

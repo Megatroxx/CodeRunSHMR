@@ -1,0 +1,48 @@
+import java.io.*
+
+fun main() {
+    val input = BufferedReader(InputStreamReader(System.`in`))
+    val writer = BufferedWriter(OutputStreamWriter(System.out))
+
+    val (N, M) = input.readLine().split(" ").map { it.toInt() }
+
+    val adj = Array(N + 1) { mutableListOf<Int>() }
+
+    repeat(M) {
+        val (u, v) = input.readLine().split(" ").map { it.toInt() }
+        adj[u].add(v)
+        adj[v].add(u)
+    }
+
+    val visited = BooleanArray(N + 1)
+
+    fun dfs(node: Int, component: MutableList<Int>) {
+        visited[node] = true
+        component.add(node)
+        for (neighbor in adj[node]) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, component)
+            }
+        }
+    }
+
+    val components = mutableListOf<MutableList<Int>>()
+
+    for (i in 1..N) {
+        if (!visited[i]) {
+            val component = mutableListOf<Int>()
+            dfs(i, component)
+            components.add(component)
+        }
+    }
+
+    writer.write("${components.size}\n")
+
+    for (component in components) {
+        writer.write("${component.size}\n")
+        writer.write(component.joinToString(" ") { it.toString() })
+        writer.write("\n")
+    }
+
+    writer.flush()
+}
